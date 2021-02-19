@@ -1,6 +1,6 @@
 # basecodeflutter
 
-Base code for my flutter projects.
+Base code for Keenan's flutter projects, tnx sir xoxo.
 
 ## Getting Started
 
@@ -14,3 +14,13 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+### After cloning this repo
+Do 'flutter pub get' to download/update all dependencies (gets rid of errors)
+
+#### To check if you are able to start the app
+Do 'flutter doctor'
+
+##### To start app
+Do 'flutter run'
+
