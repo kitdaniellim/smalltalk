@@ -1,5 +1,5 @@
-import 'package:basecode/widgets/CustomTextFormField.dart';
-import 'package:basecode/widgets/PrimaryButton.dart';
+import 'package:smalltalk/widgets/CustomTextFormField.dart';
+import 'package:smalltalk/widgets/PrimaryButton.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

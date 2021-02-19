@@ -1,4 +1,4 @@
-import 'package:basecode/screens/SettingsScreen.dart';
+import 'package:smalltalk/screens/SettingsScreen.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatefulWidget {

@@ -1,0 +1,3 @@
+Eyo insert fonts here and include them in the pubspec.yaml file, refer to the link if you need examples
+
+xoxo delete this .txt later

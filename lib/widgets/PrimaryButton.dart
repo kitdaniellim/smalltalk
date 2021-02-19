@@ -11,26 +11,30 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ButtonTheme(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.0),
+        borderRadius: BorderRadius.circular(20.0),
       ),
       minWidth: double.maxFinite,
-      height: 50,
+      height: 48,
       child: RaisedButton(
         onPressed: onPress,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(iconData),
-            SizedBox(
-              width: 10.0,
-            ),
+            // Uncomment if we want icons - Daniel
+            // Icon(iconData),
+            // SizedBox(
+            //   width: 10.0,
+            // ),
             Text(
               text,
-              style: TextStyle(fontSize: 17.0),
+              style: TextStyle(
+                color: Color(0xFF8DA5B1),
+                fontFamily: 'Quicksand',
+                fontSize: 17.0,
+              ),
             ),
           ],
         ),
-        elevation: 8.0,
         color: Theme.of(context).primaryColor,
       ),
     );

@@ -17,16 +17,29 @@ class CustomTextFormField extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-        prefixIcon: Container(
-          padding: EdgeInsets.symmetric(horizontal: 15.0),
-          child: Icon(
-            iconData,
-          ),
+        // Uncomment if we want icons - Daniel
+        // prefixIcon: Container(
+        //   padding: EdgeInsets.symmetric(horizontal: 20.0),
+        //   child: Icon(
+        //     iconData,
+        //   ),
+        // ),
+
+        // labelText: labelText,
+
+        hintStyle: TextStyle(
+          color: Color(0xFF8DA5B1),
+          fontFamily: 'Quicksand',
+          fontSize: 17.0,
         ),
-        labelText: labelText,
         hintText: hintText,
+        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0),
+        fillColor: Colors.white,
+        filled: true,
         border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(30.0))),
+          borderRadius: BorderRadius.all(Radius.circular(30.0)),
+          borderSide: BorderSide.none,
+        ),
       ),
     );
   }

@@ -1,8 +1,8 @@
-import 'package:basecode/screens/LoginScreen.dart';
-import 'package:basecode/widgets/CustomTextFormField.dart';
-import 'package:basecode/widgets/PasswordField.dart';
-import 'package:basecode/widgets/PrimaryButton.dart';
-import 'package:basecode/widgets/SecondaryButton.dart';
+import 'package:smalltalk/screens/LoginScreen.dart';
+import 'package:smalltalk/widgets/CustomTextFormField.dart';
+import 'package:smalltalk/widgets/PasswordField.dart';
+import 'package:smalltalk/widgets/PrimaryButton.dart';
+import 'package:smalltalk/widgets/SecondaryButton.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

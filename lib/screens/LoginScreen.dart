@@ -1,7 +1,7 @@
-import 'package:basecode/screens/DashboardScreen.dart';
-import 'package:basecode/screens/ForgotPasswordScreen.dart';
-import 'package:basecode/screens/RegistrationScreen.dart';
-import 'package:basecode/widgets/SecondaryButton.dart';
+import 'package:smalltalk/screens/DashboardScreen.dart';
+import 'package:smalltalk/screens/ForgotPasswordScreen.dart';
+import 'package:smalltalk/screens/RegistrationScreen.dart';
+import 'package:smalltalk/widgets/SecondaryButton.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../widgets/PrimaryButton.dart';
@@ -26,7 +26,7 @@ class LoginScreenState extends State<LoginScreen> {
         ),
         body: Container(
           alignment: Alignment.topCenter,
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          padding: EdgeInsets.symmetric(horizontal: 30.0),
           child: Center(
             child: SingleChildScrollView(
               child: Form(
@@ -34,16 +34,23 @@ class LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Center(
+                    child: Icon(
+                      FontAwesomeIcons.cloud,
+                      size: 70.0,
+                      color: Colors.white,
+                    ),
+                  ),
                   SizedBox(
-                    height: 20.0,
+                    height: 60.0,
                   ),
                   CustomTextFormField(
-                      labelText: "Email",
-                      hintText: "Enter a valid email.",
+                      labelText: "Email or Phone",
+                      hintText: "Email or Phone.",
                       iconData: FontAwesomeIcons.solidEnvelope,
                       controller: TextEditingController()),
                   SizedBox(
-                    height: 20.0,
+                    height: 30.0,
                   ),
                   PasswordField(
                       obscureText: _obscureText,
@@ -53,49 +60,39 @@ class LoginScreenState extends State<LoginScreen> {
                         });
                       },
                       labelText: "Password",
-                      hintText: "Enter your password",
+                      hintText: "Password",
                       controller: TextEditingController()),
                   SizedBox(
-                    height: 20.0,
+                    height: 90.0,
                   ),
-                  PrimaryButton(
-                      text: "Login",
-                      iconData: FontAwesomeIcons.doorOpen,
-                      onPress: () {
-                        //authenticate here
-                        Navigator.pushReplacementNamed(
-                            context, DashboardScreen.routeName);
-                      }),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 40.0),
+                    child: Column(
+                      children: [
+                        PrimaryButton(
+                            text: "LOGIN",
+                            iconData: FontAwesomeIcons.doorOpen,
+                            onPress: () {
+                              //authenticate here
+                              Navigator.pushReplacementNamed(
+                                  context, DashboardScreen.routeName);
+                            }),
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        PrimaryButton(
+                            text: "SIGN UP",
+                            iconData: FontAwesomeIcons.pencilAlt,
+                            onPress: () {
+                              //authenticate here
+                              Navigator.pushReplacementNamed(
+                                  context, DashboardScreen.routeName);
+                            }),
+                      ],
+                    ),
+                  ),
                   SizedBox(
-                    height: 20.0,
-                  ),
-                  PrimaryButton(
-                      text: "Sign-in with Google",
-                      iconData: FontAwesomeIcons.google,
-                      onPress: () {
-                        //authenticate here
-                        Navigator.pushReplacementNamed(
-                            context, DashboardScreen.routeName);
-                      }),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SecondaryButton(
-                          text: "New User? Register",
-                          onPress: () {
-                            Navigator.pushReplacementNamed(
-                                context, RegistrationScreen.routeName);
-                          }),
-                      SecondaryButton(
-                          text: "Forgot Password?",
-                          onPress: () {
-                            Navigator.pushNamed(
-                                context, ForgotPasswordScreen.routeName);
-                          }),
-                    ],
+                    height: 40.0,
                   ),
                 ],
               )),

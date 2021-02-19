@@ -1,8 +1,8 @@
-import 'package:basecode/screens/DashboardScreen.dart';
-import 'package:basecode/screens/ForgotPasswordScreen.dart';
-import 'package:basecode/screens/LoginScreen.dart';
-import 'package:basecode/screens/RegistrationScreen.dart';
-import 'package:basecode/screens/SettingsScreen.dart';
+import 'package:smalltalk/screens/DashboardScreen.dart';
+import 'package:smalltalk/screens/ForgotPasswordScreen.dart';
+import 'package:smalltalk/screens/LoginScreen.dart';
+import 'package:smalltalk/screens/RegistrationScreen.dart';
+import 'package:smalltalk/screens/SettingsScreen.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, WidgetBuilder> routes = {
