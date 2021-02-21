@@ -1,21 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import './screens/LoginScreen.dart';
 import './routes.dart';
 
 void main() {
-  runApp(MaterialApp(
-    theme: ThemeData(
-      canvasColor: Color(0xFFC2E1F2),
-      primaryColor: Colors.white,
-      // accentColor: Colors.yellow[800],
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-      textTheme: TextTheme(
-        headline5: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-        headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-        bodyText2: TextStyle(fontSize: 18.0),
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(App());
+}
+
+class App extends StatelessWidget {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  
+  @override 
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context, snapshot) {
+        if(snapshot.hasError) {
+          return SomethingWentWrong();
+        }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          return SmolTok();
+        }
+
+        return Loading();
+      }
+    )
+  }
+}
+
+class SmolTok extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        canvasColor: Color(0xFFC2E1F2),
+        primaryColor: Colors.white,
+        // accentColor: Colors.yellow[800],
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: TextTheme(
+          headline5: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          bodyText2: TextStyle(fontSize: 18.0),
+        ),
       ),
-    ),
-    routes: routes,
-    home: LoginScreen(),
-  ));
+      routes: routes,
+      home: LoginScreen(),
+    );
+  }
 }
