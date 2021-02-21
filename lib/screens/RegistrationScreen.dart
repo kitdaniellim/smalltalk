@@ -5,7 +5,6 @@ import 'package:smalltalk/widgets/PrimaryButton.dart';
 import 'package:smalltalk/widgets/SecondaryButton.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'ForgotPasswordScreen.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -22,12 +21,15 @@ class RegistrationScreenState extends State<RegistrationScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.white, //change your color here
+          ),
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
         body: Container(
           alignment: Alignment.topCenter,
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          padding: EdgeInsets.symmetric(horizontal: 30.0),
           child: Center(
             child: SingleChildScrollView(
               child: Form(
@@ -35,10 +37,19 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Center(
+                    child: Icon(
+                      FontAwesomeIcons.cloud,
+                      size: 50.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 60.0,
+                  ),
                   CustomTextFormField(
                       labelText: "First Name",
-                      hintText:
-                          "First Name must have a minimum of 4 characters.",
+                      hintText: "First Name",
                       iconData: FontAwesomeIcons.user,
                       controller: TextEditingController()),
                   SizedBox(
@@ -46,8 +57,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   CustomTextFormField(
                       labelText: "Last Name",
-                      hintText:
-                          "First Name must have a minimum of 4 characters.",
+                      hintText: "Last Name",
                       iconData: FontAwesomeIcons.user,
                       controller: TextEditingController()),
                   SizedBox(
@@ -55,8 +65,8 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   CustomTextFormField(
                       labelText: "Email",
-                      hintText: "Enter a valid email.",
-                      iconData: FontAwesomeIcons.solidEnvelope,
+                      hintText: "Email",
+                      iconData: FontAwesomeIcons.user,
                       controller: TextEditingController()),
                   SizedBox(
                     height: 20.0,
@@ -69,7 +79,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                         });
                       },
                       labelText: "Password",
-                      hintText: "Enter your password",
+                      hintText: "Password",
                       controller: TextEditingController()),
                   SizedBox(
                     height: 20.0,
@@ -82,36 +92,29 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                         });
                       },
                       labelText: "Confirm Password",
-                      hintText: "Your passwords must match.",
+                      hintText: "Confirm Password.",
                       controller: TextEditingController()),
                   SizedBox(
-                    height: 20.0,
+                    height: 70.0,
                   ),
-                  PrimaryButton(
-                      text: "Register",
-                      iconData: FontAwesomeIcons.solidFolder,
-                      onPress: () {
-                        print("Register button");
-                      }),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 40.0),
+                    child: Column(
+                      children: [
+                        PrimaryButton(
+                            text: "REGISTER",
+                            iconData: FontAwesomeIcons.pencilAlt,
+                            onPress: () {
+                              //authenticate here
+                              // Navigator.pushReplacementNamed(
+                              //     context, DashboardScreen.routeName);
+                              print('Register button');
+                            }),
+                      ],
+                    ),
+                  ),
                   SizedBox(
-                    height: 20.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SecondaryButton(
-                          text: "Already have an account? Login",
-                          onPress: () {
-                            Navigator.pushReplacementNamed(
-                                context, LoginScreen.routeName);
-                          }),
-                      SecondaryButton(
-                          text: "Forgot Password?",
-                          onPress: () {
-                            Navigator.pushNamed(
-                                context, ForgotPasswordScreen.routeName);
-                          }),
-                    ],
+                    height: 40.0,
                   ),
                 ],
               )),
@@ -120,5 +123,96 @@ class RegistrationScreenState extends State<RegistrationScreen> {
         ),
       ),
     );
+
+    // return SafeArea(
+    //   child: Scaffold(
+    //     appBar: AppBar(
+    //       backgroundColor: Colors.transparent,
+    //       elevation: 0,
+    //     ),
+    //     body: Container(
+    //       alignment: Alignment.topCenter,
+    //       padding: EdgeInsets.symmetric(horizontal: 20.0),
+    //       child: Center(
+    //         child: SingleChildScrollView(
+    //           child: Form(
+    //               child: Column(
+    //             mainAxisAlignment: MainAxisAlignment.center,
+    //             crossAxisAlignment: CrossAxisAlignment.center,
+    //             children: [
+    //               CustomTextFormField(
+    //                   labelText: "First Name",
+    //                   hintText:
+    //                       "First Name must have a minimum of 4 characters.",
+    //                   iconData: FontAwesomeIcons.user,
+    //                   controller: TextEditingController()),
+    //               SizedBox(
+    //                 height: 20.0,
+    //               ),
+    //               CustomTextFormField(
+    //                   labelText: "Last Name",
+    //                   hintText:
+    //                       "First Name must have a minimum of 4 characters.",
+    //                   iconData: FontAwesomeIcons.user,
+    //                   controller: TextEditingController()),
+    //               SizedBox(
+    //                 height: 20.0,
+    //               ),
+    //               CustomTextFormField(
+    //                   labelText: "Email",
+    //                   hintText: "Enter a valid email.",
+    //                   iconData: FontAwesomeIcons.solidEnvelope,
+    //                   controller: TextEditingController()),
+    //               SizedBox(
+    //                 height: 20.0,
+    //               ),
+    //               PasswordField(
+    //                   obscureText: _obscurePassword,
+    //                   onTap: () {
+    //                     setState(() {
+    //                       _obscurePassword = !_obscurePassword;
+    //                     });
+    //                   },
+    //                   labelText: "Password",
+    //                   hintText: "Enter your password",
+    //                   controller: TextEditingController()),
+    //               SizedBox(
+    //                 height: 20.0,
+    //               ),
+    //               PasswordField(
+    //                   obscureText: _obscureConfirmPassword,
+    //                   onTap: () {
+    //                     setState(() {
+    //                       _obscureConfirmPassword = !_obscureConfirmPassword;
+    //                     });
+    //                   },
+    //                   labelText: "Confirm Password",
+    //                   hintText: "Your passwords must match.",
+    //                   controller: TextEditingController()),
+    //               SizedBox(
+    //                 height: 20.0,
+    //               ),
+    //               PrimaryButton(
+    //                   text: "Register",
+    //                   iconData: FontAwesomeIcons.solidFolder,
+    //                   onPress: () {
+    //                     print("Register button");
+    //                   }),
+    //               // PrimaryButton(
+    //               //     text: "Back",
+    //               //     iconData: FontAwesomeIcons.solidFolder,
+    //               //     onPress: () {
+    //               //       Navigator.pop(context);
+    //               //     }),
+    //               SizedBox(
+    //                 height: 20.0,
+    //               ),
+    //             ],
+    //           )),
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }

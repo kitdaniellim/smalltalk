@@ -2,7 +2,7 @@ import 'package:smalltalk/screens/DashboardScreen.dart';
 import 'package:smalltalk/screens/ForgotPasswordScreen.dart';
 import 'package:smalltalk/screens/LoginScreen.dart';
 import 'package:smalltalk/screens/RegistrationScreen.dart';
-import 'package:smalltalk/screens/SettingsScreen.dart';
+import 'package:smalltalk/screens/NewMessageScreen.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, WidgetBuilder> routes = {
@@ -11,5 +11,5 @@ final Map<String, WidgetBuilder> routes = {
   ForgotPasswordScreen.routeName: (BuildContext context) =>
       ForgotPasswordScreen(),
   DashboardScreen.routeName: (BuildContext context) => DashboardScreen(),
-  SettingsScreen.routeName: (BuildContext context) => SettingsScreen(),
+  NewMessageScreen.routeName: (BuildContext context) => NewMessageScreen(),
 };
