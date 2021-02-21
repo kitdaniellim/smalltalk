@@ -85,8 +85,8 @@ class LoginScreenState extends State<LoginScreen> {
                             iconData: FontAwesomeIcons.pencilAlt,
                             onPress: () {
                               //authenticate here
-                              Navigator.pushReplacementNamed(
-                                  context, DashboardScreen.routeName);
+                              Navigator.pushNamed(
+                                  context, RegistrationScreen.routeName);
                             }),
                       ],
                     ),

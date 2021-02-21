@@ -5,6 +5,9 @@ import './routes.dart';
 void main() {
   runApp(MaterialApp(
     theme: ThemeData(
+      // iconTheme: IconThemeData(
+      //   color: Colors.white, //change your color here
+      // ),
       canvasColor: Color(0xFFC2E1F2),
       primaryColor: Colors.white,
       // accentColor: Colors.yellow[800],
