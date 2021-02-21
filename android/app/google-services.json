@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "220752158610",
+    "firebase_url": "https://smalltalk-e6237.firebaseio.com",
+    "project_id": "smalltalk-e6237",
+    "storage_bucket": "smalltalk-e6237.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220752158610:android:8d38e2e2f8d9b4afc26b4b",
+        "android_client_info": {
+          "package_name": "com.usc.smalltalk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220752158610-ru93dbt00moonn4q62ehs6n6dsg1cvcl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzDOA_GmY7G6yy3HvJvCxmutD5gcPN3TQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220752158610-ru93dbt00moonn4q62ehs6n6dsg1cvcl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
