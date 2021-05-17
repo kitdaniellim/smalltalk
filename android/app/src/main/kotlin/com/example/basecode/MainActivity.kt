@@ -1,4 +1,4 @@
-package com.example.basecode
+package com.usc.smalltalk
 
 import io.flutter.embedding.android.FlutterActivity
 
