@@ -23,8 +23,10 @@ class App extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             return SmolTok();
           } else {
-            return Container(
-              child: Center(child: Text('Loading...')),
+            return Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+              ),
             );
           }
         });

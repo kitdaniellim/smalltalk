@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class NewMessageScreen extends StatefulWidget {
+class MessageScreen extends StatefulWidget {
   static String routeName = "settings";
 
   @override
-  NewMessageScreenState createState() => NewMessageScreenState();
+  MessageScreenState createState() => MessageScreenState();
 }
 
-class NewMessageScreenState extends State<NewMessageScreen> {
+class MessageScreenState extends State<MessageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +27,7 @@ class NewMessageScreenState extends State<NewMessageScreen> {
       ),
       body: Center(
         child: SingleChildScrollView(
-          child: Text("New Message Screen"),
+          child: Text("Message Screen"),
         ),
       ),
     );
