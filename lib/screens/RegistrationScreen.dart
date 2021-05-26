@@ -1,3 +1,5 @@
+import 'package:smalltalk/net/firebase.dart';
+import 'package:smalltalk/screens/DashboardScreen.dart';
 import 'package:smalltalk/screens/LoginScreen.dart';
 import 'package:smalltalk/widgets/CustomTextFormField.dart';
 import 'package:smalltalk/widgets/PasswordField.dart';
@@ -5,6 +7,7 @@ import 'package:smalltalk/widgets/PrimaryButton.dart';
 import 'package:smalltalk/widgets/SecondaryButton.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'ForgotPasswordScreen.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -16,6 +19,12 @@ class RegistrationScreen extends StatefulWidget {
 class RegistrationScreenState extends State<RegistrationScreen> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _fNameController = TextEditingController();
+  TextEditingController _lNameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -51,7 +60,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                       labelText: "First Name",
                       hintText: "First Name",
                       iconData: FontAwesomeIcons.user,
-                      controller: TextEditingController()),
+                      controller: _fNameController),
                   SizedBox(
                     height: 20.0,
                   ),
@@ -59,7 +68,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                       labelText: "Last Name",
                       hintText: "Last Name",
                       iconData: FontAwesomeIcons.user,
-                      controller: TextEditingController()),
+                      controller: _lNameController),
                   SizedBox(
                     height: 20.0,
                   ),
@@ -67,7 +76,8 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                       labelText: "Email",
                       hintText: "Email",
                       iconData: FontAwesomeIcons.user,
-                      controller: TextEditingController()),
+                      controller: _emailController,
+                      inputType: "email",),
                   SizedBox(
                     height: 20.0,
                   ),
@@ -80,7 +90,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                       },
                       labelText: "Password",
                       hintText: "Password",
-                      controller: TextEditingController()),
+                      controller: _passwordController),
                   SizedBox(
                     height: 20.0,
                   ),
@@ -93,7 +103,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                       },
                       labelText: "Confirm Password",
                       hintText: "Confirm Password.",
-                      controller: TextEditingController()),
+                      controller: _confirmPasswordController),
                   SizedBox(
                     height: 70.0,
                   ),
@@ -104,11 +114,36 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                         PrimaryButton(
                             text: "REGISTER",
                             iconData: FontAwesomeIcons.pencilAlt,
-                            onPress: () {
+                            onPress: () async {
+                              if(_passwordController.text != _confirmPasswordController.text) {
+                               print("Passwords don't match.") ;
+                              } else {
+                                try{
+                                  UserCredential creds = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                    email: _emailController.text,
+                                    password: _passwordController.text);
+
+                                  User user = FirebaseAuth.instance.currentUser;
+
+                                  if(user != null) {
+                                    user.updateProfile(displayName: _fNameController.text + ' ' + _lNameController.text);
+                                    register(displayName: _fNameController.text + ' ' + _lNameController.text);
+                                    Navigator.of(context).pushNamed(DashboardScreen.routeName);
+                                  }
+                                } on FirebaseAuthException catch(e) {
+                                  if(e.code == 'week-password') {
+                                    print('The password provided is too weak.');
+                                  } else if (e.code == 'email-already-in-use') {
+                                    print('An account already exists for that email.');
+                                  }
+                                } catch(e) {
+                                  print(e);
+                                }
+                              }
+                              
                               //authenticate here
                               // Navigator.pushReplacementNamed(
                               //     context, DashboardScreen.routeName);
-                              print('Register button');
                             }),
                       ],
                     ),

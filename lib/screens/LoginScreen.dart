@@ -4,6 +4,7 @@ import 'package:smalltalk/screens/RegistrationScreen.dart';
 import 'package:smalltalk/widgets/SecondaryButton.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/PrimaryButton.dart';
 import '../widgets/CustomTextFormField.dart';
 import '../widgets/PasswordField.dart';
@@ -16,6 +17,9 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();  
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -48,7 +52,7 @@ class LoginScreenState extends State<LoginScreen> {
                       labelText: "Email or Phone",
                       hintText: "Email or Phone.",
                       iconData: FontAwesomeIcons.solidEnvelope,
-                      controller: TextEditingController()),
+                      controller: _emailController),
                   SizedBox(
                     height: 30.0,
                   ),
@@ -61,7 +65,7 @@ class LoginScreenState extends State<LoginScreen> {
                       },
                       labelText: "Password",
                       hintText: "Password",
-                      controller: TextEditingController()),
+                      controller: _passwordController),
                   SizedBox(
                     height: 90.0,
                   ),
@@ -72,10 +76,28 @@ class LoginScreenState extends State<LoginScreen> {
                         PrimaryButton(
                             text: "LOGIN",
                             iconData: FontAwesomeIcons.doorOpen,
-                            onPress: () {
+                            onPress: () async {
+                              try {
+                                UserCredential creds = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                  email: _emailController.text,
+                                  password: _passwordController.text
+                                );
+
+                                User user = creds.user;
+
+                                if(user != null) {
+                                  Navigator.of(context).pushNamed(DashboardScreen.routeName);
+                                }
+                              } on FirebaseAuthException catch(e) {
+                                if(e.code == 'user-not-found') {
+                                  print('No user found for that email');
+                                } else if (e.code == 'wrong-password') {
+                                  print("Wrong password provided for that user.");
+                                }
+                              } catch (e) {
+                                print(e);
+                              }
                               //authenticate here
-                              Navigator.pushReplacementNamed(
-                                  context, DashboardScreen.routeName);
                             }),
                         SizedBox(
                           height: 30.0,
