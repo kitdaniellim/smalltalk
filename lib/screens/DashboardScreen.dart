@@ -100,7 +100,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                             child: GestureDetector(
                               onTap: () {
                                 print('Opened ' +
-                                    snapshot.data.docs[index]["name"] +
+                                    snapshot.data.docs[index]["displayName"] +
                                     "'s chat message");
                                 Navigator.pushNamed(
                                     context, MessageScreen.routeName);
@@ -138,7 +138,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                 size: 50.0,
                                 color: Colors.black,
                               ),
-                              title: Text(snapshot.data.docs[index]["name"]),
+                              title: Text(snapshot.data.docs[index]["displayName"]),
                               subtitle: Text(
                                 "long text yeah long text long long and very long aaaaaaaas asfasfasfh kjasfhfk jasd",
                                 maxLines: 1,
@@ -150,7 +150,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                               ),
                               onTap: () {
                                 print('Opened ' +
-                                    snapshot.data.docs[index]["name"] +
+                                    snapshot.data.docs[index]["displayName"] +
                                     "'s chat message");
                                 Navigator.pushNamed(
                                     context, MessageScreen.routeName);
