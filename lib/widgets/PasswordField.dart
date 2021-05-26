@@ -19,6 +19,7 @@ class PasswordField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       obscureText: obscureText,
+      controller: controller,
       decoration: InputDecoration(
         // Uncomment if we want icons - Daniel
         // prefixIcon: Container(
