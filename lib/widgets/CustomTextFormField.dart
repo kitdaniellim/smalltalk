@@ -9,11 +9,11 @@ class CustomTextFormField extends StatelessWidget {
   final String inputType;
 
   CustomTextFormField(
-      {@required this.labelText,
-      @required this.hintText,
-      @required this.iconData,
-      @required this.controller,
-      this.inputType});
+      {required this.labelText,
+      required this.hintText,
+      required this.iconData,
+      required this.controller,
+      this.inputType = ''});
 
   @override
   Widget build(BuildContext context) {

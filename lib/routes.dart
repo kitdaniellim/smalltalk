@@ -8,8 +8,7 @@ import 'package:flutter/material.dart';
 final Map<String, WidgetBuilder> routes = {
   LoginScreen.routeName: (BuildContext context) => LoginScreen(),
   RegistrationScreen.routeName: (BuildContext context) => RegistrationScreen(),
-  ForgotPasswordScreen.routeName: (BuildContext context) =>
-      ForgotPasswordScreen(),
+  ForgotPasswordScreen.routeName: (BuildContext context) => ForgotPasswordScreen(),
   DashboardScreen.routeName: (BuildContext context) => DashboardScreen(),
   MessageScreen.routeName: (BuildContext context) => MessageScreen(),
 };

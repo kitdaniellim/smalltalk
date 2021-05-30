@@ -1,7 +1,5 @@
 import 'package:smalltalk/screens/DashboardScreen.dart';
-import 'package:smalltalk/screens/ForgotPasswordScreen.dart';
 import 'package:smalltalk/screens/RegistrationScreen.dart';
-import 'package:smalltalk/widgets/SecondaryButton.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';

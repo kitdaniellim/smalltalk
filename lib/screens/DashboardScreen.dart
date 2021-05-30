@@ -1,6 +1,7 @@
-import 'package:smalltalk/screens/MessageScreen.dart';
 import 'package:flutter/material.dart';
-
+import 'package:smalltalk/screens/MessageScreen.dart';
+import 'package:smalltalk/widgets/ScreenArguments.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 //Instance of Firestore, use this to retrieve data from the Cloud Firestore
@@ -14,6 +15,7 @@ class DashboardScreen extends StatefulWidget {
 
 class DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
+  TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -45,17 +47,25 @@ class DashboardScreenState extends State<DashboardScreen> {
             );
           },
         ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, MessageScreen.routeName);
-              },
-              child: Icon(Icons.add, size: 26.0, color: Colors.white),
-            ),
-          ),
-        ],
+        //TOP RIGHT ADD BUTTON, uncommented for simplicity *cusz we're lazy <3*
+        // actions: [
+        //   Padding(
+        //     padding: EdgeInsets.only(right: 20.0),
+        //     child: GestureDetector(
+        //       onTap: () {
+        //         Navigator.pushNamed(
+        //           context,
+        //           MessageScreen.routeName,
+        //           arguments: ScreenArguments(
+        //             'New Message',
+        //             'random uid lol dont need this',
+        //           ),
+        //         );
+        //       },
+        //       child: Icon(Icons.add, size: 26.0, color: Colors.white),
+        //     ),
+        //   ),
+        // ],
       ),
       body: StreamBuilder(
         stream: users.snapshots(),
@@ -75,42 +85,61 @@ class DashboardScreenState extends State<DashboardScreen> {
               return Column(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 22.0, vertical: 10.0),
                     child: Text(
                       "CONTACTS",
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF8DA5B1),
+                        color: Colors.white,
                       ),
                     ),
-                    
                     alignment: Alignment.topLeft,
                   ),
                   Expanded(
                     flex: 1,
                     child: Container(
-                      color: Colors.white,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.all(15.0),
+                        padding: EdgeInsets.all(10.0),
                         itemBuilder: (context, index) {
                           return Container(
+                            height: 80.0,
                             width: 60.0,
                             child: GestureDetector(
-                              onTap: () {
-                                print('Opened ' +
-                                    snapshot.data.docs[index]["displayName"] +
-                                    "'s chat message");
-                                Navigator.pushNamed(
-                                    context, MessageScreen.routeName);
-                              },
-                              child: Icon(
-                                Icons.account_circle,
-                                size: 50.0,
-                                color: Colors.black,
-                              ),
-                            ),
+                                onTap: () {
+                                  print('Opened ' +
+                                      snapshot.data.docs[index]["displayName"] +
+                                      "'s chat message");
+                                  Navigator.pushNamed(
+                                    context,
+                                    MessageScreen.routeName,
+                                    arguments: ScreenArguments(
+                                      snapshot.data.docs[index]["displayName"],
+                                      snapshot.data.docs[index]["uid"],
+                                    ),
+                                  );
+                                },
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: 2.0),
+                                      child: Icon(
+                                        Icons.account_circle,
+                                        size: 42.0,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Text(
+                                      snapshot.data.docs[index]["displayName"]
+                                          .split(" ")[0],
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                )),
                           );
                         },
                         itemCount: snapshot.data.docs.length,
@@ -127,9 +156,9 @@ class DashboardScreenState extends State<DashboardScreen> {
                         itemBuilder: (context, index) {
                           return Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(20))
-                            ),
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
                             margin: const EdgeInsets.symmetric(vertical: 8.0),
                             child: ListTile(
@@ -138,7 +167,8 @@ class DashboardScreenState extends State<DashboardScreen> {
                                 size: 50.0,
                                 color: Colors.black,
                               ),
-                              title: Text(snapshot.data.docs[index]["displayName"]),
+                              title: Text(
+                                  snapshot.data.docs[index]["displayName"]),
                               subtitle: Text(
                                 "long text yeah long text long long and very long aaaaaaaas asfasfasfh kjasfhfk jasd",
                                 maxLines: 1,
@@ -153,7 +183,13 @@ class DashboardScreenState extends State<DashboardScreen> {
                                     snapshot.data.docs[index]["displayName"] +
                                     "'s chat message");
                                 Navigator.pushNamed(
-                                    context, MessageScreen.routeName);
+                                  context,
+                                  MessageScreen.routeName,
+                                  arguments: ScreenArguments(
+                                    snapshot.data.docs[index]["displayName"],
+                                    snapshot.data.docs[index]["uid"],
+                                  ),
+                                );
                               },
                             ),
                           );
@@ -166,7 +202,90 @@ class DashboardScreenState extends State<DashboardScreen> {
               );
             } else {
               print(_selectedIndex);
-              return Container();
+              return Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 22.0, vertical: 10.0),
+                    child: Text(
+                      "ACTIVE",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    alignment: Alignment.topLeft,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 22.0, vertical: 18.0),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: "Search...",
+                        hintStyle: TextStyle(color: Colors.grey.shade600),
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Colors.grey.shade600,
+                          size: 20,
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey.shade100,
+                        contentPadding: EdgeInsets.all(8),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide:
+                                BorderSide(color: Colors.grey.shade100)),
+                      ),
+                      controller: _searchController,
+                    ),
+                    alignment: Alignment.center,
+                  ),
+                  Expanded(
+                    flex: 5,
+                    child: Container(
+                      height: 150.0,
+                      color: Color(0xFFE6F0F6),
+                      child: ListView.builder(
+                        padding: EdgeInsets.all(15.0),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            padding: const EdgeInsets.symmetric(vertical: 4.0),
+                            margin: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: ListTile(
+                              leading: const Icon(
+                                Icons.account_circle,
+                                size: 50.0,
+                                color: Colors.black,
+                              ),
+                              title: Text(
+                                  snapshot.data.docs[index]["displayName"]),
+                              onTap: () {
+                                print('Opened ' +
+                                    snapshot.data.docs[index]["displayName"] +
+                                    "'s chat message");
+                                Navigator.pushNamed(
+                                  context,
+                                  MessageScreen.routeName,
+                                  arguments: ScreenArguments(
+                                    snapshot.data.docs[index]["displayName"],
+                                    snapshot.data.docs[index]["uid"],
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        itemCount: snapshot.data.docs.length,
+                      ),
+                    ),
+                  ),
+                ],
+              );
             }
           }
         },

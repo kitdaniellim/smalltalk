@@ -127,7 +127,10 @@ class RegistrationScreenState extends State<RegistrationScreen> {
 
                                   if(user != null) {
                                     user.updateProfile(displayName: _fNameController.text + ' ' + _lNameController.text);
-                                    register(displayName: _fNameController.text + ' ' + _lNameController.text);
+                                    register(
+                                      displayName: _fNameController.text + ' ' + _lNameController.text,
+                                      url: ''
+                                    );
                                     Navigator.of(context).pushNamed(DashboardScreen.routeName);
                                   }
                                 } on FirebaseAuthException catch(e) {

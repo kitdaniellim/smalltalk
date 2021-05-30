@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class PrimaryButton extends StatelessWidget {
   final String text;
   final IconData iconData;
-  final Function onPress;
+  final VoidCallback onPress;
   PrimaryButton(
-      {@required this.text, @required this.iconData, @required this.onPress});
+      {required this.text, required this.iconData, required this.onPress});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class PrimaryButton extends StatelessWidget {
       ),
       minWidth: double.maxFinite,
       height: 48,
-      child: RaisedButton(
+      child: ElevatedButton(
         onPressed: onPress,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -35,7 +35,9 @@ class PrimaryButton extends StatelessWidget {
             ),
           ],
         ),
-        color: Theme.of(context).primaryColor,
+        style: ElevatedButton.styleFrom(
+          primary: Theme.of(context).primaryColor,
+        ),
       ),
     );
   }

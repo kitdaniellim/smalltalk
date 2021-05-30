@@ -3,17 +3,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PasswordField extends StatelessWidget {
   final bool obscureText;
-  final Function onTap;
+  final VoidCallback onTap;
   final String labelText;
   final String hintText;
   final TextEditingController controller;
 
   PasswordField(
-      {@required this.obscureText,
-      @required this.onTap,
-      @required this.labelText,
-      @required this.hintText,
-      @required this.controller});
+      {required this.obscureText,
+      required this.onTap,
+      required this.labelText,
+      required this.hintText,
+      required this.controller});
 
   @override
   Widget build(BuildContext context) {

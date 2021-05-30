@@ -1,6 +1,6 @@
-# basecodeflutter
+# basecodeflutter -> SmallTalk
 
-Base code for Keenan's flutter projects, tnx sir xoxo.
+Base code from Keenan's flutter projects, tnx sir xoxo.
 
 ## Getting Started
 
@@ -22,5 +22,11 @@ Do 'flutter pub get' to download/update all dependencies (gets rid of errors)
 Do 'flutter doctor'
 
 ##### To start app
-Do 'flutter run'
+Do 'flutter run' or flutter run --no-sound-null-safety
 
+###### Sample Test User Accounts
+Email: ellesea@gmail.com 
+Password: sample123
+
+Email: kitdaniel@gmail.com 
+Password: 123456

@@ -1,5 +1,8 @@
+// @dart=2.9
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:smalltalk/widgets/ScreenArguments.dart';
 import './screens/LoginScreen.dart';
 import './routes.dart';
 
@@ -37,6 +40,7 @@ class SmolTok extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // iconTheme: IconThemeData(
         //   color: Colors.white, //change your color here
