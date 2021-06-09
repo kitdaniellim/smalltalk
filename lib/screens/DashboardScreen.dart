@@ -3,6 +3,7 @@ import 'package:smalltalk/screens/MessageScreen.dart';
 import 'package:smalltalk/widgets/ScreenArguments.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 //Instance of Firestore, use this to retrieve data from the Cloud Firestore
 
@@ -16,10 +17,12 @@ class DashboardScreen extends StatefulWidget {
 class DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
   TextEditingController _searchController = TextEditingController();
+  String uid = FirebaseAuth.instance.currentUser.uid.toString();
   @override
   Widget build(BuildContext context) {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference users = firestore.collection("users");
+    Query otherUsers = users.where("uid", isNotEqualTo: uid);
 
     void _onItemTapped(int index) {
       setState(() {
@@ -68,7 +71,7 @@ class DashboardScreenState extends State<DashboardScreen> {
         // ],
       ),
       body: StreamBuilder(
-        stream: users.snapshots(),
+        stream: otherUsers.snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Text(
@@ -238,6 +241,10 @@ class DashboardScreenState extends State<DashboardScreen> {
                                 BorderSide(color: Colors.grey.shade100)),
                       ),
                       controller: _searchController,
+                      textInputAction: TextInputAction.search,
+                      onSubmitted: (value) {
+                        print(value);
+                      },
                     ),
                     alignment: Alignment.center,
                   ),
