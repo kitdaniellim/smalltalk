@@ -85,9 +85,11 @@ class LoginScreenState extends State<LoginScreen> {
                                   );
 
                                   User user = creds.user;
-
+                                  
                                   if(user != null) {
                                     Navigator.of(context).pushNamed(DashboardScreen.routeName);
+                                    _emailController.text = "";
+                                    _passwordController.text = "";
                                   }
                                 }
                               } on FirebaseAuthException catch(e) {
