@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:smalltalk/screens/MessageScreen.dart';
+import 'package:smalltalk/screens/LoginScreen.dart';
 import 'package:smalltalk/widgets/ScreenArguments.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -50,25 +52,34 @@ class DashboardScreenState extends State<DashboardScreen> {
             );
           },
         ),
-        //TOP RIGHT ADD BUTTON, uncommented for simplicity *cusz we're lazy <3*
-        // actions: [
-        //   Padding(
-        //     padding: EdgeInsets.only(right: 20.0),
-        //     child: GestureDetector(
-        //       onTap: () {
-        //         Navigator.pushNamed(
-        //           context,
-        //           MessageScreen.routeName,
-        //           arguments: ScreenArguments(
-        //             'New Message',
-        //             'random uid lol dont need this',
-        //           ),
-        //         );
-        //       },
-        //       child: Icon(Icons.add, size: 26.0, color: Colors.white),
-        //     ),
-        //   ),
-        // ],
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () => showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Leaving?'),
+                  content: const Text('Are you sure you want to log out?'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                      child: const Text('No'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.of(context).popUntil((route) => route.isFirst);
+                      },
+                      child: const Text('Yes'),
+                    ),
+                  ],
+                ),
+              ),
+              child: Icon(Icons.logout, size: 26.0, color: Colors.white),
+            ),
+          ),
+        ],
       ),
       body: StreamBuilder(
         stream: otherUsers.snapshots(),
@@ -172,15 +183,15 @@ class DashboardScreenState extends State<DashboardScreen> {
                               ),
                               title: Text(
                                   snapshot.data.docs[index]["displayName"]),
-                              subtitle: Text(
-                                "long text yeah long text long long and very long aaaaaaaas asfasfasfh kjasfhfk jasd",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color(0xFFCAC3C3),
-                                ),
-                              ),
+                              // subtitle: Text(
+                              //   "long text yeah long text long long and very long aaaaaaaas asfasfasfh kjasfhfk jasd",
+                              //   maxLines: 1,
+                              //   overflow: TextOverflow.ellipsis,
+                              //   style: TextStyle(
+                              //     fontSize: 15,
+                              //     color: Color(0xFFCAC3C3),
+                              //   ),
+                              // ),
                               onTap: () {
                                 print('Opened ' +
                                     snapshot.data.docs[index]["displayName"] +
