@@ -76,23 +76,33 @@ class LoginScreenState extends State<LoginScreen> {
                             iconData: FontAwesomeIcons.doorOpen,
                             onPress: () async {
                               try {
-                                UserCredential creds = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                                  email: _emailController.text,
-                                  password: _passwordController.text
-                                );
+                                if(_emailController.text == "" || _passwordController.text == "") {
+                                  print("You didn't even give me credentials");
+                                } else {
+                                  UserCredential creds = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                    email: _emailController.text,
+                                    password: _passwordController.text
+                                  );
 
-                                User user = creds.user;
+                                  User user = creds.user;
 
-                                if(user != null) {
-                                  Navigator.of(context).pushNamed(DashboardScreen.routeName);
+                                  if(user != null) {
+                                    Navigator.of(context).pushNamed(DashboardScreen.routeName);
+                                  }
                                 }
                               } on FirebaseAuthException catch(e) {
+                                SnackBar snackBar = SnackBar(content: Text("There was an error in logging you in."));
                                 if(e.code == 'user-not-found') {
+                                  snackBar = SnackBar(content: Text("No user found for that email"));
                                   print('No user found for that email');
                                 } else if (e.code == 'wrong-password') {
+                                  snackBar = SnackBar(content: Text("Username and password do not match."));
                                   print("Wrong password provided for that user.");
                                 }
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               } catch (e) {
+                                SnackBar snackBar = SnackBar(content: Text("There was an error in logging you in. Please try again later"));
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                 print(e);
                               }
                               //authenticate here
