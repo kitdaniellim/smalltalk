@@ -91,17 +91,29 @@ class LoginScreenState extends State<LoginScreen> {
                                   }
                                 }
                               } on FirebaseAuthException catch(e) {
-                                SnackBar snackBar = SnackBar(content: Text("There was an error in logging you in."));
+                                SnackBar snackBar = SnackBar(
+                                  content: Text("There was an error in logging you in."),
+                                  backgroundColor: Colors.red[60]
+                                  );
                                 if(e.code == 'user-not-found') {
-                                  snackBar = SnackBar(content: Text("No user found for that email"));
+                                  snackBar = SnackBar(
+                                    content: Text("No user found for that email"),
+                                    backgroundColor: Colors.red
+                                    );
                                   print('No user found for that email');
                                 } else if (e.code == 'wrong-password') {
-                                  snackBar = SnackBar(content: Text("Username and password do not match."));
+                                  snackBar = SnackBar(
+                                    content: Text("Username and password do not match."),
+                                    backgroundColor: Colors.red
+                                    );
                                   print("Wrong password provided for that user.");
                                 }
                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               } catch (e) {
-                                SnackBar snackBar = SnackBar(content: Text("There was an error in logging you in. Please try again later"));
+                                SnackBar snackBar = SnackBar(
+                                  content: Text("There was an error in logging you in. Please try again later"),
+                                  backgroundColor: Colors.red
+                                  );
                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                 print(e);
                               }

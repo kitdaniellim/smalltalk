@@ -116,6 +116,10 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                             iconData: FontAwesomeIcons.pencilAlt,
                             onPress: () async {
                               if(_passwordController.text != _confirmPasswordController.text) {
+                                SnackBar snackBar = SnackBar(
+                                    content: Text("Passwords do not match."),
+                                    backgroundColor: Colors.red);
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                print("Passwords don't match.") ;
                               } else {
                                 try{
@@ -134,12 +138,26 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                                     Navigator.of(context).pushNamed(DashboardScreen.routeName);
                                   }
                                 } on FirebaseAuthException catch(e) {
+                                  SnackBar snackBar = SnackBar(
+                                    content: Text("There was an error with your registration. Please try again later."),
+                                    backgroundColor: Colors.red);
                                   if(e.code == 'week-password') {
+                                    snackBar = SnackBar(
+                                    content: Text("The password provided is too weak."),
+                                    backgroundColor: Colors.red);
                                     print('The password provided is too weak.');
                                   } else if (e.code == 'email-already-in-use') {
+                                    snackBar = SnackBar(
+                                    content: Text("An account alredy exists for that email."),
+                                    backgroundColor: Colors.red);
                                     print('An account already exists for that email.');
                                   }
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                 } catch(e) {
+                                  SnackBar snackBar = SnackBar(
+                                    content: Text("There was an error with your registration. Please try again later."),
+                                    backgroundColor: Colors.red);
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                   print(e);
                                 }
                               }
