@@ -21,13 +21,14 @@ class DashboardScreenState extends State<DashboardScreen> {
   TextEditingController _searchController = TextEditingController();
   String uid = FirebaseAuth.instance.currentUser.uid.toString();
   Query otherUsers = FirebaseFirestore.instance.collection("users").where("uid", isNotEqualTo: FirebaseAuth.instance.currentUser.uid.toString());
-  Query sender = FirebaseFirestore.instance.collection("messages").where("sender", isEqualTo: FirebaseAuth.instance.currentUser.uid.toString());
-  Query receiver = FirebaseFirestore.instance.collection("messages").where("receiver", isEqualTo: FirebaseAuth.instance.currentUser.uid.toString());
+  final Stream<QuerySnapshot> _sender = FirebaseFirestore.instance.collection("messages").where("sender", isEqualTo: FirebaseAuth.instance.currentUser.uid.toString()).snapshots();
+  final Stream<QuerySnapshot> _receiver = FirebaseFirestore.instance.collection("messages").where("receiver", isEqualTo: FirebaseAuth.instance.currentUser.uid.toString()).snapshots();
+  final Stream<QuerySnapshot> _messages = FirebaseFirestore.instance.collection("messages").snapshots();
   List<String> chats = [];
 
   void getMessages() {
     // first get sender
-    sender.snapshots().listen((snapshot) { 
+    _sender.listen((snapshot) { 
       snapshot.docs.forEach((element) {
         if(!chats.contains(element["receiver"])) {
           chats.add(element["receiver"]);
@@ -35,7 +36,7 @@ class DashboardScreenState extends State<DashboardScreen> {
       });
     });
 
-    receiver.snapshots().listen((snapshot) { 
+    _receiver.listen((snapshot) { 
       snapshot.docs.forEach((element) {
         if(!chats.contains(element["sender"])) {
           chats.add(element["sender"]);
@@ -51,6 +52,7 @@ class DashboardScreenState extends State<DashboardScreen> {
       setState(() {
         _selectedIndex = index;
         otherUsers = FirebaseFirestore.instance.collection("users").where("uid", isNotEqualTo: uid);
+        getMessages();
       });
     }
 
@@ -181,58 +183,65 @@ class DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    flex: 5,
-                    child: Container(
-                      height: 150.0,
-                      color: Color(0xFFE6F0F6),
-                      child: ListView.builder(
-                        padding: EdgeInsets.all(15.0),
-                        itemBuilder: (context, index) {
-                          if(chats.contains(snapshot.data.docs[index]["uid"])){
-                            return Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
-                              padding: const EdgeInsets.symmetric(vertical: 4.0),
-                              margin: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: ListTile(
-                                leading: const Icon(
-                                  Icons.account_circle,
-                                  size: 50.0,
-                                  color: Colors.black,
-                                ),
-                                title: Text(
-                                    snapshot.data.docs[index]["displayName"]),
-                                // subtitle: Text(
-                                //   "long text yeah long text long long and very long aaaaaaaas asfasfasfh kjasfhfk jasd",
-                                //   maxLines: 1,
-                                //   overflow: TextOverflow.ellipsis,
-                                //   style: TextStyle(
-                                //     fontSize: 15,
-                                //     color: Color(0xFFCAC3C3),
-                                //   ),
-                                // ),
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    MessageScreen.routeName,
-                                    arguments: ScreenArguments(
-                                      snapshot.data.docs[index]["displayName"],
-                                      snapshot.data.docs[index]["uid"],
+                  StreamBuilder(
+                    stream: _messages,
+                    builder: (BuildContext context, AsyncSnapshot msgs){
+                      getMessages();
+                      return Expanded(
+                        flex: 5,
+                        child: Container(
+                          height: 150.0,
+                          color: Color(0xFFE6F0F6),
+                          child: ListView.builder(
+                            padding: EdgeInsets.all(15.0),
+                            itemBuilder: (context, index) {
+                              
+                              if(chats.contains(snapshot.data.docs[index]["uid"])){
+                                return Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20))),
+                                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                  margin: const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: ListTile(
+                                    leading: const Icon(
+                                      Icons.account_circle,
+                                      size: 50.0,
+                                      color: Colors.black,
                                     ),
-                                  );
-                                },
-                              ),
-                            );
-                          } else {
-                            return Container();
-                          }
-                        },
-                        itemCount: snapshot.data.docs.length,
-                      ),
-                    ),
+                                    title: Text(
+                                        snapshot.data.docs[index]["displayName"]),
+                                    // subtitle: Text(
+                                    //   "long text yeah long text long long and very long aaaaaaaas asfasfasfh kjasfhfk jasd",
+                                    //   maxLines: 1,
+                                    //   overflow: TextOverflow.ellipsis,
+                                    //   style: TextStyle(
+                                    //     fontSize: 15,
+                                    //     color: Color(0xFFCAC3C3),
+                                    //   ),
+                                    // ),
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        MessageScreen.routeName,
+                                        arguments: ScreenArguments(
+                                          snapshot.data.docs[index]["displayName"],
+                                          snapshot.data.docs[index]["uid"],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              } else {
+                                return Container();
+                              }
+                            },
+                            itemCount: snapshot.data.docs.length,
+                          ),
+                        ),
+                      );
+                    }
                   ),
                 ],
               );
