@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smalltalk/widgets/ScreenArguments.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 class MessageScreen extends StatefulWidget {
   static String routeName = "settings";
@@ -28,31 +29,28 @@ class MessageScreenState extends State<MessageScreen> {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference messages = firestore.collection("messages");
-    final Stream<QuerySnapshot> _messagesStream = firestore.collection("messages").snapshots();
-
+    final Stream<QuerySnapshot> _messagesStream =
+        firestore.collection("messages").snapshots();
+    final _controller = ScrollController();
     String selfUUID = FirebaseAuth.instance.currentUser.uid.toString();
 
-    TextEditingController _messageController = TextEditingController();  
+    TextEditingController _messageController = TextEditingController();
 
     void sendMessage(msgContent) {
-      
-      if(msgContent != "") {
+      if (msgContent != "") {
         messages
-          .add({
-            'content': msgContent,
-            'created_at': new DateTime.now(),
-            'receiver': args.uuid,
-            'sender': selfUUID
-          })
-          .then((val) => {
-            print(val)
-          })
-          .catchError((err) => {
-            print(err)
-          });
+            .add({
+              'content': msgContent,
+              'created_at': new DateTime.now(),
+              'receiver': args.uuid,
+              'sender': selfUUID
+            })
+            .then((val) => {print(val)})
+            .catchError((err) => {print(err)});
         print(msgContent);
+        _controller.jumpTo(_controller.position.maxScrollExtent);
       }
-      
+
       _messageController.clear();
     }
     // print(args.uuid);
@@ -147,11 +145,17 @@ class MessageScreenState extends State<MessageScreen> {
                 return Stack(
                   children: <Widget>[
                     ListView.builder(
+                      controller: _controller,
                       itemCount: chatBubbles.length,
                       shrinkWrap: true,
-                      padding: EdgeInsets.only(top: 10, bottom: 10),
-                      physics: NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.only(top: 10, bottom: 60),
                       itemBuilder: (context, index) {
+                        DateTime time = DateTime.fromMicrosecondsSinceEpoch(
+                            chatBubbles[index]
+                                .createdAt
+                                .microsecondsSinceEpoch);
+                        String formattedDate =
+                            DateFormat('h:mm a').format(time);
                         return Container(
                           padding: EdgeInsets.only(
                               left: 14, right: 14, top: 10, bottom: 10),
@@ -167,9 +171,20 @@ class MessageScreenState extends State<MessageScreen> {
                                     : Colors.blue[200]),
                               ),
                               padding: EdgeInsets.all(16),
-                              child: Text(
-                                chatBubbles[index].content,
-                                style: TextStyle(fontSize: 15),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    chatBubbles[index].content,
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Text(
+                                      "Sent " + formattedDate,
+                                      style: TextStyle(fontSize: 9),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -195,9 +210,7 @@ class MessageScreenState extends State<MessageScreen> {
                                     hintStyle: TextStyle(color: Colors.black54),
                                     border: InputBorder.none),
                                 controller: _messageController,
-                                onSubmitted: (value) => {
-                                  sendMessage(value)
-                                },
+                                onSubmitted: (value) => {sendMessage(value)},
                               ),
                             ),
                             SizedBox(
