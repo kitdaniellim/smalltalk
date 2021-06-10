@@ -20,15 +20,14 @@ class DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
   TextEditingController _searchController = TextEditingController();
   String uid = FirebaseAuth.instance.currentUser.uid.toString();
+  Query otherUsers = FirebaseFirestore.instance.collection("users").where("uid", isNotEqualTo: FirebaseAuth.instance.currentUser.uid.toString());
   @override
   Widget build(BuildContext context) {
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference users = firestore.collection("users");
-    Query otherUsers = users.where("uid", isNotEqualTo: uid);
 
     void _onItemTapped(int index) {
       setState(() {
         _selectedIndex = index;
+        otherUsers = FirebaseFirestore.instance.collection("users").where("uid", isNotEqualTo: uid);
       });
     }
 
@@ -123,9 +122,6 @@ class DashboardScreenState extends State<DashboardScreen> {
                             width: 60.0,
                             child: GestureDetector(
                                 onTap: () {
-                                  print('Opened ' +
-                                      snapshot.data.docs[index]["displayName"] +
-                                      "'s chat message");
                                   Navigator.pushNamed(
                                     context,
                                     MessageScreen.routeName,
@@ -193,9 +189,6 @@ class DashboardScreenState extends State<DashboardScreen> {
                               //   ),
                               // ),
                               onTap: () {
-                                print('Opened ' +
-                                    snapshot.data.docs[index]["displayName"] +
-                                    "'s chat message");
                                 Navigator.pushNamed(
                                   context,
                                   MessageScreen.routeName,
@@ -215,7 +208,6 @@ class DashboardScreenState extends State<DashboardScreen> {
                 ],
               );
             } else {
-              print(_selectedIndex);
               return Column(
                 children: [
                   Container(
@@ -254,7 +246,10 @@ class DashboardScreenState extends State<DashboardScreen> {
                       controller: _searchController,
                       textInputAction: TextInputAction.search,
                       onSubmitted: (value) {
-                        print(value);
+                        _searchController.clear();
+                        setState(() {
+                          otherUsers = FirebaseFirestore.instance.collection("users").where("uid", isNotEqualTo: uid).where("search", arrayContains: value.toLowerCase());
+                        });
                       },
                     ),
                     alignment: Alignment.center,
@@ -283,9 +278,6 @@ class DashboardScreenState extends State<DashboardScreen> {
                               title: Text(
                                   snapshot.data.docs[index]["displayName"]),
                               onTap: () {
-                                print('Opened ' +
-                                    snapshot.data.docs[index]["displayName"] +
-                                    "'s chat message");
                                 Navigator.pushNamed(
                                   context,
                                   MessageScreen.routeName,
