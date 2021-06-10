@@ -153,9 +153,11 @@ class MessageScreenState extends State<MessageScreen> {
                         DateTime time = DateTime.fromMicrosecondsSinceEpoch(
                             chatBubbles[index]
                                 .createdAt
-                                .microsecondsSinceEpoch);
+                                .microsecondsSinceEpoch, isUtc: true);
+                        DateTime parsed = DateFormat("yyyy-MM-dd HH:mm:ssZ").parse(time.toString(), true);
+                        DateTime local = parsed.toLocal();
                         String formattedDate =
-                            DateFormat('h:mm a').format(time);
+                            DateFormat('h:mm a').format(local);
                         return Container(
                           padding: EdgeInsets.only(
                               left: 14, right: 14, top: 10, bottom: 10),
