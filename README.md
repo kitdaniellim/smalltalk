@@ -25,8 +25,14 @@ Do 'flutter doctor'
 Do 'flutter run' or flutter run --no-sound-null-safety
 
 ###### Sample Test User Accounts
-Email: ellesea@gmail.com 
+Email: elletagupa@gmail.com 
 Password: sample123
 
 Email: kitdaniel@gmail.com 
 Password: 123456
+
+Email: kent@gmail.com
+Password: sample456
+
+Email: chester@gmail.com
+Password: sample789
