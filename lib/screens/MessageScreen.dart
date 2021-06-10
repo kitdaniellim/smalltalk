@@ -27,12 +27,37 @@ class MessageScreenState extends State<MessageScreen> {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference dbRef = firestore.collection("messages");
+    CollectionReference messages = firestore.collection("messages");
+    final Stream<QuerySnapshot> _messagesStream = firestore.collection("messages").snapshots();
 
     String selfUUID = FirebaseAuth.instance.currentUser.uid.toString();
+
+    TextEditingController _messageController = TextEditingController();  
+
+    void sendMessage(msgContent) {
+      
+      if(msgContent != "") {
+        messages
+          .add({
+            'content': msgContent,
+            'created_at': new DateTime.now(),
+            'receiver': args.uuid,
+            'sender': selfUUID
+          })
+          .then((val) => {
+            print(val)
+          })
+          .catchError((err) => {
+            print(err)
+          });
+        print(msgContent);
+      }
+      
+      _messageController.clear();
+    }
     // print(args.uuid);
     // print(selfUUID);
-    // Stream<QuerySnapshot> q1 = dbRef
+    // Stream<QuerySnapshot> q1 = messages
     // .where("receiver", isEqualTo: args.uuid)
     // .where("sender", isEqualTo: selfUUID)
     // .snapshots();
@@ -50,7 +75,7 @@ class MessageScreenState extends State<MessageScreen> {
     //   });
     // });
 
-    // Stream<QuerySnapshot> q2 = dbRef
+    // Stream<QuerySnapshot> q2 = messages
     //     .where("receiver", isEqualTo: selfUUID)
     //     .where("sender", isEqualTo: args.uuid)
     //     .snapshots();
@@ -87,7 +112,7 @@ class MessageScreenState extends State<MessageScreen> {
           centerTitle: true,
         ),
         body: StreamBuilder(
-            stream: dbRef.snapshots(),
+            stream: _messagesStream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasError) {
                 return Text(
@@ -100,7 +125,7 @@ class MessageScreenState extends State<MessageScreen> {
                   ),
                 );
               } else {
-                List<ChatMessage> messages = [];
+                List<ChatMessage> chatBubbles = [];
                 List<DocumentSnapshot> items = [];
                 items = snapshot.data.docs;
                 items.forEach((field) {
@@ -108,7 +133,7 @@ class MessageScreenState extends State<MessageScreen> {
                           field["sender"] == selfUUID ||
                       field["sender"] == args.uuid &&
                           field["receiver"] == selfUUID) {
-                    messages.add(
+                    chatBubbles.add(
                       ChatMessage(
                         content: field["content"],
                         createdAt: field["created_at"],
@@ -118,11 +143,11 @@ class MessageScreenState extends State<MessageScreen> {
                     );
                   }
                 });
-                messages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+                chatBubbles.sort((a, b) => a.createdAt.compareTo(b.createdAt));
                 return Stack(
                   children: <Widget>[
                     ListView.builder(
-                      itemCount: messages.length,
+                      itemCount: chatBubbles.length,
                       shrinkWrap: true,
                       padding: EdgeInsets.only(top: 10, bottom: 10),
                       physics: NeverScrollableScrollPhysics(),
@@ -131,19 +156,19 @@ class MessageScreenState extends State<MessageScreen> {
                           padding: EdgeInsets.only(
                               left: 14, right: 14, top: 10, bottom: 10),
                           child: Align(
-                            alignment: (messages[index].receiver == selfUUID
+                            alignment: (chatBubbles[index].receiver == selfUUID
                                 ? Alignment.topLeft
                                 : Alignment.topRight),
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: (messages[index].receiver == selfUUID
+                                color: (chatBubbles[index].receiver == selfUUID
                                     ? Colors.grey.shade200
                                     : Colors.blue[200]),
                               ),
                               padding: EdgeInsets.all(16),
                               child: Text(
-                                messages[index].content,
+                                chatBubbles[index].content,
                                 style: TextStyle(fontSize: 15),
                               ),
                             ),
@@ -169,6 +194,10 @@ class MessageScreenState extends State<MessageScreen> {
                                     hintText: "Write message...",
                                     hintStyle: TextStyle(color: Colors.black54),
                                     border: InputBorder.none),
+                                controller: _messageController,
+                                onSubmitted: (value) => {
+                                  sendMessage(value)
+                                },
                               ),
                             ),
                             SizedBox(
@@ -177,7 +206,7 @@ class MessageScreenState extends State<MessageScreen> {
                             FloatingActionButton(
                               onPressed: () {
                                 //code to add textfield value to db
-                                print('EY MADAFAKA DIS TEXT SHALL BE SENT TO DA DB');
+                                sendMessage(_messageController.text);
                               },
                               child: Icon(
                                 Icons.send,
