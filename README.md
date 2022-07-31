@@ -1,19 +1,12 @@
+
+![image](https://user-images.githubusercontent.com/60454465/182025950-10e3c168-3ced-4333-9291-6dc51767e24c.png)
+![image](https://user-images.githubusercontent.com/60454465/182025965-96edc775-622f-4573-925b-6aab023290c7.png)
+![image](https://user-images.githubusercontent.com/60454465/182025985-d96fc1e5-aea1-49d3-b556-874a988cabb7.png)
+
+UI Wireframe: https://www.figma.com/file/iPlv1G7fg0xuTGhcJTUpHj/SmallTalk?node-id=0%3A1
+
 # basecodeflutter -> SmallTalk
-
 Base code from Keenan's flutter projects, tnx sir xoxo.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 
 ### After cloning this repo
 Do 'flutter pub get' to download/update all dependencies (gets rid of errors)
