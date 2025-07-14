@@ -6,7 +6,6 @@
 UI Wireframe: https://www.figma.com/file/iPlv1G7fg0xuTGhcJTUpHj/SmallTalk?node-id=0%3A1
 
 # basecodeflutter -> SmallTalk
-Base code from Keenan's flutter projects, tnx sir xoxo.
 
 ### After cloning this repo
 Do 'flutter pub get' to download/update all dependencies (gets rid of errors)
